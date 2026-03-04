@@ -11,6 +11,7 @@ export default function Sidebar() {
   const navItems = [
     { name: "概览", href: "/dashboard", icon: "📊" },
     { name: "设置", href: "/dashboard/settings", icon: "⚙️" },
+    { name: '聊天', href: "/dashboard/chat", icon: "💬" },
   ];
 
   return (
