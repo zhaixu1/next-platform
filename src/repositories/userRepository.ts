@@ -10,10 +10,18 @@ export const userRepository = {
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
+        passwordhash VARCHAR(255) NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
     await query(sql);
+
+    // 兼容旧表结构：如果之前没有 passwordhash 字段，则补充该字段
+    try {
+      await query("ALTER TABLE users ADD COLUMN passwordhash VARCHAR(255) NULL");
+    } catch {
+      // 字段已存在时忽略错误
+    }
   },
 
   // 2. 查询所有用户
@@ -29,10 +37,21 @@ export const userRepository = {
     return rows[0] || null;
   },
 
-  // 4. 创建用户
+  // 4. 根据登录信息查询用户
+  findByCredentials: async (username: string, email: string, passwordhash: string) => {
+    const sql = `
+      SELECT * FROM users
+      WHERE username = ? AND email = ? AND passwordhash = ?
+      LIMIT 1
+    `;
+    const rows = await query<User[]>(sql, [username, email, passwordhash]);
+    return rows[0] || null;
+  },
+
+  // 5. 创建用户
   create: async (user: CreateUserDTO) => {
-    const sql = 'INSERT INTO users (username, email) VALUES (?, ?)';
-    return await query<OkPacket>(sql, [user.username, user.email]);
+    const sql = 'INSERT INTO users (username, email, passwordhash) VALUES (?, ?, ?)';
+    return await query<OkPacket>(sql, [user.username, user.email, user.passwordhash]);
   }
 };
 

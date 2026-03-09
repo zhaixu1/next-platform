@@ -4,9 +4,10 @@ export interface User {
   id: number;
   username: string; // 将 name 改为 username
   email: string;
+  passwordhash: string | null;
   created_at: Date;
 }
 
 // 用于创建用户的类型（不需要 id 和 created_at，因为数据库会自动生成）
-export type CreateUserDTO = Omit<User, 'id' | 'created_at'>;
+export type CreateUserDTO = Omit<User, "id" | "created_at">;
 

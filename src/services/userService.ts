@@ -12,7 +12,7 @@ export const userService = {
   },
 
   // 创建新用户
-  createUser: async (username: string, email: string) => {
+  createUser: async (username: string, email: string, passwordhash?: string) => {
     // 1. 简单的业务校验
     if (!username || !email) {
       throw new Error('用户名和邮箱不能为空');
@@ -25,7 +25,8 @@ export const userService = {
     // 2. 构造数据对象
     const newUser: CreateUserDTO = {
       username,
-      email
+      email,
+      passwordhash: passwordhash ?? null
     };
 
     // 3. 调用数据层保存
@@ -33,6 +34,15 @@ export const userService = {
     
     // 4. 返回新创建的用户 ID
     return result.insertId;
+  },
+
+  // 根据登录信息查询用户
+  findUserForLogin: async (username: string, email: string, passwordhash: string) => {
+    if (!username || !email || !passwordhash) {
+      throw new Error("用户名、邮箱和密码不能为空");
+    }
+
+    return await userRepository.findByCredentials(username, email, passwordhash);
   }
 };
 
