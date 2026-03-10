@@ -7,8 +7,7 @@ import { post } from "@/lib/request";
 
 type LoginFormValues = {
   username: string;
-  email: string;
-  passwordhash: string;
+  password: string;
 };
 
 export default function Login() {
@@ -47,7 +46,7 @@ export default function Login() {
             登录
           </Typography.Title>
           <Typography.Text type="secondary">
-            请输入账号、邮箱与密码完成登录
+            请输入账号与密码完成登录
           </Typography.Text>
         </div>
 
@@ -70,19 +69,8 @@ export default function Login() {
           </Form.Item>
 
           <Form.Item
-            label="邮箱"
-            name="email"
-            rules={[
-              { required: true, message: "请输入邮箱" },
-              { type: "email", message: "邮箱格式不正确" },
-            ]}
-          >
-            <Input placeholder="example@email.com" inputMode="email" />
-          </Form.Item>
-
-          <Form.Item
             label="密码"
-            name="passwordhash"
+            name="password"
             rules={[
               { required: true, message: "请输入密码" },
               { min: 6, message: "密码至少 6 位" },

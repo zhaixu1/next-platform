@@ -5,7 +5,8 @@ import { useState } from "react";
 export default function SettingsPage() {
   const [formData, setFormData] = useState({
     username: "",
-    email: ""
+    email: "",
+    password: "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -32,7 +33,7 @@ export default function SettingsPage() {
 
       setStatus("success");
       setMessage(`用户创建成功！ID: ${data.newUserId}`);
-      setFormData({ username: "", email: "" }); // 清空表单
+      setFormData({ username: "", email: "", password: "" }); // 清空表单
     } catch (error) {
       setStatus("error");
       setMessage((error as Error).message);
@@ -72,6 +73,21 @@ export default function SettingsPage() {
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="user@example.com"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              登录密码
+            </label>
+            <input
+              type="password"
+              required
+              minLength={6}
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="请输入至少 6 位密码"
             />
           </div>
 

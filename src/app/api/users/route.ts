@@ -22,10 +22,10 @@ export async function POST(request: Request) {
   try {
     // 1. 从请求体中解析数据
     const body = await request.json();
-    const { username, email } = body;
+    const { username, email, password } = body;
 
     // 2. 调用 Service 创建用户
-    const newUserId = await userService.createUser(username, email);
+    const newUserId = await userService.createUser(username, email, password);
 
     // 3. 返回成功响应
     return NextResponse.json({

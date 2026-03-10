@@ -4,7 +4,7 @@ export interface User {
   id: number;
   username: string; // 将 name 改为 username
   email: string;
-  passwordhash: string | null;
+  password_hash: string | null;
   created_at: Date;
 }
 
