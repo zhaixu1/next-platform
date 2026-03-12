@@ -22,7 +22,6 @@ export async function POST(request: Request) {
     }
 
     const user = await userService.login(username, password);
-    console.log(user,'userService中的 user111');
     if (!user) {
       return NextResponse.json({ error: "用户名或密码不正确" }, { status: 401 });
     }

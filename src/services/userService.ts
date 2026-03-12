@@ -62,7 +62,6 @@ export const userService = {
     }
 
     const user = await userRepository.findByUsername(normalizedUsername);
-    console.log(user,'userService中的 user');
     if (!user) {
       return null;
     }
